@@ -11,7 +11,7 @@ form.addEventListener("submit", function (e) {
         imageUrl: document.getElementById("imageUrl").value
     };
 
-    axios.post("/add-product", product)
+    axios.post("/admin/add-product", product)
         .then(response => {
             alert("Product Added!");
             loadProducts();
@@ -24,7 +24,7 @@ form.addEventListener("submit", function (e) {
 });
 
 function loadProducts() {
-    axios.get("/products")
+    axios.get("/admin/products")
         .then(response => {
             productList.innerHTML = "";
 
