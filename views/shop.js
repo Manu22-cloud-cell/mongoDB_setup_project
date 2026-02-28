@@ -1,6 +1,6 @@
 const productList = document.getElementById("productList");
 
-document.addEventListener("DOMContentLoaded",loadShopProducts());
+document.addEventListener("DOMContentLoaded", loadShopProducts);
 
 function loadShopProducts() {
 
@@ -17,10 +17,16 @@ function loadShopProducts() {
                     <p>₹ ${prod.price}</p>
                     <p>${prod.description}</p>
                     <img src="${prod.imageUrl}" width="100"/>
-                `;
+                    <button onclick="viewDetails('${prod._id}')">Details</button>
+                    <button>Add to cart</button>
+                     `;
 
                 productList.appendChild(div);
             });
         })
         .catch(err => console.log(err));
+}
+
+function viewDetails(productId) {
+    window.location.href = `/product-details.html?id=${productId}`;
 }
