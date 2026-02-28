@@ -7,6 +7,8 @@ const {mongoConnect}=require("./utils/database");
 const productRoutes=require("./routes/product");
 const shopRoutes=require("./routes/shop");
 
+const User = require("./models/user");
+
 const app=express();
 
 app.use(cors());
@@ -17,10 +19,19 @@ app.use(express.static(path.join(__dirname,"views")));
 app.use("/admin",productRoutes);
 app.use("/shop",shopRoutes);
 
-mongoConnect(()=>{
-    app.listen(3000,()=>{
-        console.log("Server is running on port 3000");
-    });
+mongoConnect(() => {
+    const user = new User(
+        "Manoj",
+        "manoj@email.com",
+        "123456"
+    );
+
+    user.save()
+        .then(result => {
+            console.log("User created");
+            app.listen(3000);
+        })
+        .catch(err => console.log(err));
 });
 
 
