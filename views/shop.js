@@ -13,13 +13,22 @@ function loadShopProducts() {
                 div.classList.add("product");
 
                 div.innerHTML = `
-                    <h3>${prod.title}</h3>
-                    <p>₹ ${prod.price}</p>
-                    <p>${prod.description}</p>
-                    <img src="${prod.imageUrl}" width="100"/>
-                    <button onclick="viewDetails('${prod._id}')">Details</button>
-                    <button>Add to cart</button>
-                     `;
+        <div class="product-content">
+            <h3>${prod.title}</h3>
+            <p class="price">₹ ${prod.price}</p>
+            <img src="${prod.imageUrl}" />
+            <p class="description">${prod.description}</p>
+        </div>
+
+        <div class="btn-group">
+            <button class="details-btn" onclick="viewDetails('${prod._id}')">
+                Details
+            </button>
+            <button class="cart-btn">
+                Add to Cart
+            </button>
+        </div>
+    `;
 
                 productList.appendChild(div);
             });

@@ -28,3 +28,28 @@ exports.getProducts = (req, res) => {
         });
 };
 
+exports.deleteProduct = (req, res) => {
+    const prodId = req.params.productId;
+
+    Product.deleteById(prodId)
+        .then(result => {
+            res.status(200).json({ message: "Product deleted" });
+        })
+        .catch(err => {
+            res.status(500).json({ error: "Delete failed" });
+        });
+};
+
+exports.editProduct = (req, res) => {
+    const prodId = req.params.productId;
+    const { title, price, description, imageUrl } = req.body;
+
+    Product.updateById(prodId, { title, price, description, imageUrl })
+        .then(result => {
+            res.status(200).json({ message: "Product updated" });
+        })
+        .catch(err => {
+            res.status(500).json({ error: "Update failed" });
+        });
+};
+

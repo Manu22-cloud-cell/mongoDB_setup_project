@@ -11,7 +11,7 @@ class Product {
 
     save() {
         const db = getDB();
-        return db.collection('products').insertOne(this)
+        return db.collection("products").insertOne(this);
     }
 
     static fetchAll() {
@@ -23,6 +23,21 @@ class Product {
         const db = getDB();
         return db.collection("products")
             .findOne({ _id: new mongodb.ObjectId(prodId) });
+    }
+
+    static deleteById(prodId) {
+        const db = getDB();
+        return db.collection("products")
+            .deleteOne({ _id: new mongodb.ObjectId(prodId) });
+    }
+
+    static updateById(prodId, updatedData) {
+        const db = getDB();
+        return db.collection("products")
+            .updateOne(
+                { _id: new mongodb.ObjectId(prodId) },
+                { $set: updatedData }
+            );
     }
 }
 

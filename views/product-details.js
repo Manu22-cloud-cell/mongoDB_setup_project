@@ -11,12 +11,20 @@ function loadProduct() {
             const prod = response.data;
 
             productDetails.innerHTML = `
-                <h2>${prod.title}</h2>
-                <img src="${prod.imageUrl}" width="200"/>
-                <p><strong>Price:</strong> ₹ ${prod.price}</p>
-                <p><strong>Description:</strong> ${prod.description}</p>
-                <button>Add to Cart</button>
-            `;
+    <div class="details-card">
+        <div class="details-image">
+            <img src="${prod.imageUrl}" />
+        </div>
+
+        <div class="details-content">
+            <h2>${prod.title}</h2>
+            <p class="price">₹ ${prod.price}</p>
+            <p class="description">${prod.description}</p>
+
+            <button class="cart-btn">Add to Cart</button>
+        </div>
+    </div>
+`;
         })
         .catch(err => console.log(err));
 }
