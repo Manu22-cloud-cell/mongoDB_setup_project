@@ -35,3 +35,21 @@ exports.addToCart = (req, res) => {
         })
         .catch(err => console.log(err));
 };
+
+exports.getCart = (req, res) => {
+    req.user.getCart()
+        .then(products => {
+            res.status(200).json(products);
+        })
+        .catch(err => console.log(err));
+};
+
+exports.removeFromCart = (req, res) => {
+    const prodId = req.body.productId;
+
+    req.user.removeFromCart(prodId)
+        .then(() => {
+            res.status(200).json({ message: "Removed from cart" });
+        })
+        .catch(err => console.log(err));
+};
