@@ -13,7 +13,7 @@ exports.getProducts = (req, res) => {
 exports.getProductById=(req,res)=>{
 
     const prodId=req.params.productId;
-    
+
     Product.findById(prodId)
     .then(product=>{
         res.status(200).json(product);
@@ -22,3 +22,16 @@ exports.getProductById=(req,res)=>{
         res.status(500).json({error:"Failed to fetch the product"});
     })
 }
+
+exports.addToCart = (req, res) => {
+    const prodId = req.body.productId;
+
+    Product.findById(prodId)
+        .then(product => {
+            return req.user.addToCart(product);
+        })
+        .then(() => {
+            res.status(200).json({ message: "Added to cart" });
+        })
+        .catch(err => console.log(err));
+};

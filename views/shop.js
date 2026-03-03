@@ -24,8 +24,8 @@ function loadShopProducts() {
             <button class="details-btn" onclick="viewDetails('${prod._id}')">
                 Details
             </button>
-            <button class="cart-btn">
-                Add to Cart
+            <button class="cart-btn" onclick="addToCart('${prod._id}')">
+             Add to Cart
             </button>
         </div>
     `;
@@ -38,4 +38,12 @@ function loadShopProducts() {
 
 function viewDetails(productId) {
     window.location.href = `/product-details.html?id=${productId}`;
+}
+
+function addToCart(productId) {
+    axios.post("/shop/cart", { productId })
+        .then(res => {
+            alert("Added to Cart");
+        })
+        .catch(err => console.log(err));
 }
