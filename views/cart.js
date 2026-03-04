@@ -1,4 +1,5 @@
 const cartItems = document.getElementById("cartItems");
+const placeOrderBtn = document.getElementById("placeOrderBtn");
 
 document.addEventListener("DOMContentLoaded", loadCart);
 
@@ -6,6 +7,22 @@ function loadCart() {
     axios.get("/shop/cart")
         .then(response => {
             cartItems.innerHTML = "";
+
+            // If cart is empty
+            if (response.data.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="empty-cart">
+                        <h3>Your cart is empty 🛒</h3>
+                        <p>Add some products from the shop.</p>
+                    </div>
+                `;
+
+                placeOrderBtn.classList.add("hidden");
+                return;
+            }
+
+            // If cart has items
+            placeOrderBtn.style.display = "inline-block";
 
             response.data.forEach(prod => {
                 const div = document.createElement("div");
@@ -29,6 +46,15 @@ function loadCart() {
 function removeFromCart(productId) {
     axios.post("/shop/cart-delete-item", { productId })
         .then(() => {
+            loadCart();
+        })
+        .catch(err => console.log(err));
+}
+
+function placeOrder() {
+    axios.post("/shop/create-order")
+        .then(() => {
+            alert("Order Placed Successfully!");
             loadCart();
         })
         .catch(err => console.log(err));

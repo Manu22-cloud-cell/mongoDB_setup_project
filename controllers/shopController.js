@@ -1,4 +1,5 @@
 const Product=require("../models/product");
+const Order = require("../models/order");
 
 exports.getProducts = (req, res) => {
     Product.fetchAll()
@@ -50,6 +51,22 @@ exports.removeFromCart = (req, res) => {
     req.user.removeFromCart(prodId)
         .then(() => {
             res.status(200).json({ message: "Removed from cart" });
+        })
+        .catch(err => console.log(err));
+};
+
+exports.placeOrder = (req, res) => {
+    req.user.placeOrder()
+        .then(() => {
+            res.status(200).json({ message: "Order placed successfully" });
+        })
+        .catch(err => console.log(err));
+};
+
+exports.getOrders = (req, res) => {
+    Order.findByUserId(req.user._id)
+        .then(orders => {
+            res.status(200).json(orders);
         })
         .catch(err => console.log(err));
 };
