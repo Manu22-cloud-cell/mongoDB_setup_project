@@ -1,24 +1,36 @@
-const { getDB } = require("../utils/database");
-const mongodb = require("mongodb");
+const mongoose = require("mongoose");
 
-class Order {
-    constructor(user, products) {
-        this.user = user;
-        this.products = products;
-        this.createdAt = new Date();
-    }
+const Schema = mongoose.Schema;
 
-    save() {
-        const db = getDB();
-        return db.collection("orders").insertOne(this);
-    }
+const orderSchema = new Schema({
+    user: {
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+            required: true
+        },
+        name: String,
+        email: String
+    },
+    products: [
+        {
+            product: {
+                _id: {
+                    type: Schema.Types.ObjectId,
+                    ref: "Product",
+                    required: true
+                },
+                title: String,
+                price: Number,
+                description: String,
+                imageUrl: String
+            },
+            quantity: {
+                type: Number,
+                required: true
+            }
+        }
+    ]
+}, { timestamps: true });
 
-    static findByUserId(userId) {
-        const db = getDB();
-        return db.collection("orders")
-            .find({ "user.userId": new mongodb.ObjectId(userId) })
-            .toArray();
-    }
-}
-
-module.exports = Order;
+module.exports = mongoose.model("Order", orderSchema);
